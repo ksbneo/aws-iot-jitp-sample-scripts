@@ -158,7 +158,7 @@ This will process a AWS CloudFormation template and then deploy the associated
 stack.  This will run two commandlines:
 
 	aws cloudformation package  \
-		--s3-bucket $(AWS_BUCKET)  \
+		--s3-bucket ${AWS_BUCKET}  \
 		--template-file etc/cloudformation.yaml \
 		--output-template-file tmp/cloudformation.pkg.yaml
 
@@ -167,7 +167,7 @@ normalized version, and performs a basic set of check on the syntax. This step
 requires an s3 bucket to work. The second command:
 	
 	aws cloudformation deploy \
-		--stack-name $(AWS_STACK) \
+		--stack-name ${AWS_STACK} \
 		--template-file tmp/cloudformation.pkg.yaml \
 		--capabilities CAPABILITY_NAMED_IAM 
 

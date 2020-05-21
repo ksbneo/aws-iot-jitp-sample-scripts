@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: MIT-0
 
 CA=${1:-root}
+echo "CA: ${CA}"
 
 if [[ -z "$AWS_ACCOUNT" ]]; then
 	echo "Please set the AWS_ACCOUNT environment variable"
@@ -11,6 +12,8 @@ if [[ -z "$AWS_ACCOUNT" ]]; then
 fi
 
 SUB=`aws iot get-registration-code | jq -r '.["registrationCode"]'`
+echo "SUB=${SUB}"
+
 openssl req -new -key "$CA.ca.key" -out verificationCert.csr -subj "/CN=$SUB"
 openssl x509 -req -in verificationCert.csr -CA "$CA.ca.pem" -CAkey "$CA.ca.key" -CAcreateserial -out verificationCert.pem -days 500 -sha256
 mkdir -p tmp

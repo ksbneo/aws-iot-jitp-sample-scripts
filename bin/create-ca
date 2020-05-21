@@ -12,4 +12,7 @@ ORG=${5:-AWS}
 ORGUNIT=${6:-Demo}
 
 openssl genrsa -out "$CN.ca.key" 2048
-openssl req -x509 -new -nodes -key "$CN.ca.key" -sha256 -days 1024 -out "$CN.ca.pem"  -subj "/CN=$CN/C=$COUNTRY/L=$LOCATION/ST=$STATE/O=$ORG/OU=$ORGUNIT"
+
+
+openssl req -new -sha256 -key "$CN.ca.key" -nodes -out "$CN.ca.csr"  -config root-ca.conf
+openssl x509 -req -days 1024 -extfile root-ca.conf -extensions v3_ca -in "$CN.ca.csr" -signkey "$CN.ca.key" -out "$CN.ca.pem"
